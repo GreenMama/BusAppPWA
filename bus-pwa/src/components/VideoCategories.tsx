@@ -1,29 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import { List, ListItem, ListItemIcon, Divider, ButtonBase, Box, LinearProgress, Stack } from '@mui/material';
 import { VideoLibrary } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { VideoCategory } from '../interfaces';
+import { useImmer } from 'use-immer';
+import useFetchData from '../hooks/useFetchData';
+
+interface ComponentState {
+    categories: VideoCategory[];
+    isLoading: boolean;
+}
 
 const VideoCategories: React.FC = () => {
-    const [categories, setCategories] = useState<VideoCategory[]>([]);
+    const [state, setState] = useImmer<ComponentState>({
+        categories: [],
+        isLoading: false,
+    });
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(false);
+    const { data: categoriesData, error: categoriesError, loading: categoriesLoading } = useFetchData(`/Videos Categories`, `videoCategories`);
 
     useEffect(() => {
-        // Fetch video categories from API
-        setIsLoading(true);
-        axios.get('https://7udlon6f8l.execute-api.us-east-1.amazonaws.com/dev/api/videocategories')
-            .then(response => {
-                setCategories(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching video categories:', error);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, []);
+        setState((draft) => {
+            draft.categories = categoriesData as VideoCategory[] || [];
+            draft.isLoading = categoriesLoading;
+        });
+    }, [categoriesData, categoriesLoading]);
+
+    useEffect(() => {
+        if (categoriesError) {
+            console.error('Error fetching video categories data:', categoriesError);
+        }
+    }, [categoriesError]);
 
     const handleCategoryClick = (category: VideoCategory) => {
         navigate(`/videos/${encodeURIComponent(category.Category)}`);
@@ -32,9 +39,9 @@ const VideoCategories: React.FC = () => {
     return (
         <div>
             <Stack >
-                {isLoading && <LinearProgress />}
+                {state.isLoading && <LinearProgress />}
                 <List>
-                    {categories.map(category => (
+                    {state.categories.map(category => (
                         <React.Fragment key={category._RowNumber}>
                             <Box sx={{ width: '100%', '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' } }}>
                                 <ButtonBase onClick={() => handleCategoryClick(category)} style={{ width: '100%' }}>

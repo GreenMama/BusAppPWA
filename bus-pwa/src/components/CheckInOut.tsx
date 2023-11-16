@@ -8,6 +8,7 @@ import QRCodeComponent from '../components/QRCodeComponent';
 import { useImmer } from 'use-immer';
 import '../App.css';
 import { decodeToken } from '../utils';
+import useFetchData from '../hooks/useFetchData';
 
 interface NotificationProps {
     message?: string;
@@ -43,6 +44,7 @@ const CheckInOut: React.FC<ComponentProps> = ({ mode = "Check in" }) => {
         isNotificationOpen: false,
         qrCodeHistory: {},
     });
+    const { data: passengersData, error: passengersError, loading: passengersLoading } = useFetchData(`/Passengers`, `passengers`);
     const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
     const [datetime, setDateTime] = useState(new Date());
 
@@ -70,25 +72,37 @@ const CheckInOut: React.FC<ComponentProps> = ({ mode = "Check in" }) => {
     }, []);
 
     useEffect(() => {
-        // Fetch persons from API
+        // // Fetch persons from API
+        // setState((draft) => {
+        //     draft.isLoading = true;
+        // });
+
+        // axios.get('https://7udlon6f8l.execute-api.us-east-1.amazonaws.com/dev/api/Passengers')
+        //     .then((response) => {
+        //         setState((draft) => {
+        //             draft.persons = response.data;
+        //             draft.isLoading = false;
+        //         });
+        //     })
+        //     .catch((error) => {
+        //         console.error('Error fetching persons:', error);
+        //         setState((draft) => {
+        //             draft.isLoading = false;
+        //         });
+        //     });
+
         setState((draft) => {
-            draft.isLoading = true;
+            draft.persons = passengersData as Person[] || [];
+            draft.isLoading = passengersLoading;
         });
 
-        axios.get('https://7udlon6f8l.execute-api.us-east-1.amazonaws.com/dev/api/Passengers')
-            .then((response) => {
-                setState((draft) => {
-                    draft.persons = response.data;
-                    draft.isLoading = false;
-                });
-            })
-            .catch((error) => {
-                console.error('Error fetching persons:', error);
-                setState((draft) => {
-                    draft.isLoading = false;
-                });
-            });
-    }, []);
+    }, [passengersData, passengersLoading]);
+
+    useEffect(() => {
+        if (passengersError) {
+            console.error('Error fetching passengers data:', passengersError);
+        }
+    }, [passengersError]);
 
     const handleClose = () => {
         setState((draft) => {
