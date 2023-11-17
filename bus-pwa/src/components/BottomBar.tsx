@@ -1,6 +1,6 @@
 import React from 'react';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
-import { HomeRounded, VideoLibraryRounded, /*ReportProblem,*/ LockOpenRounded, LoginRounded, LogoutRounded } from '@mui/icons-material';
+import { HomeRounded, VideoLibraryRounded, Checklist, LockOpenRounded, LoginRounded, LogoutRounded } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
@@ -27,6 +27,7 @@ const BottomBar: React.FC<ComponentProps> = ({ showIcons = true }) => {
             {showIcons && <BottomNavigationAction label="Pick Up" value="checkin" icon={<LoginRounded />} />}
             {showIcons && <BottomNavigationAction label="Drop Off" value="checkout" icon={<LogoutRounded />} />}
             {showIcons && <BottomNavigationAction label="Videos" value="videocategories" icon={<VideoLibraryRounded />} />}
+            {showIcons && <BottomNavigationAction label="Daily Log" value="busroutelogs" icon={<Checklist />} />}
             {showIcons && <BottomNavigationAction label="Sign In" value="signin" icon={<LockOpenRounded />} />}
         </BottomNavigation>
     );

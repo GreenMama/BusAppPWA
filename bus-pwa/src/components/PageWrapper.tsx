@@ -60,7 +60,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ showHeader, showFooter, showF
         <VisualViewport   >
             <Box sx={{ display: 'flex', flexDirection: 'column', height: '100dvh' }}>
                 {showHeader && <Header showMenu={showMenu} showLogo={showLogo} appBarTitle={appBarTitle} />}
-                <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
+                <Box sx={{ flexGrow: 1, overflow: 'auto', bgcolor: '#F0F0F0' }}>
                     {children}
                 </Box>
                 {showFooter && <BottomBar showIcons={showFooterIcons} />}

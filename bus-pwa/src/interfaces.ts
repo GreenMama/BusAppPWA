@@ -139,3 +139,38 @@ export const blankTodaysFocus = (): TodaysFocus => ({
     "Related Users": '',
 });
 
+export interface BusRouteLog {
+    "_RowNumber": string;
+    "ID": string;
+    "Date": string;
+    "Bus": string;
+    "Route": string;
+    "Driver": string;
+    "Volunteer Monitor": string;
+    "YesLiberia Attendee": string;
+    "Start Time": string;
+    "End Time": string;
+    "Fuel In": string;
+    "Fuel Out": string;
+    "Miles on Odometer": string;
+    "Number of Passengers": string;
+    "Notes": string;
+}
+
+export const blankBusRouteLog = (): BusRouteLog => ({
+    "_RowNumber": '',
+    "ID": '',
+    "Date": '',
+    "Bus": '',
+    "Route": '',
+    "Driver": '',
+    "Volunteer Monitor": '',
+    "YesLiberia Attendee": '',
+    "Start Time": '',
+    "End Time": '',
+    "Fuel In": '',
+    "Fuel Out": '',
+    "Miles on Odometer": '',
+    "Number of Passengers": '',
+    "Notes": ''
+});
