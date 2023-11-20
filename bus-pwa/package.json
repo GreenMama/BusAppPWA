@@ -20,11 +20,13 @@
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.5.1",
     "dayjs": "^1.11.10",
+    "framer-motion": "^10.16.5",
     "html5-qrcode": "^2.3.8",
     "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.17.0",
+    "react-slide-routes": "^3.0.3",
     "use-immer": "^0.9.0"
   },
   "devDependencies": {

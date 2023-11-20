@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { List, ListItem, ListItemIcon, Divider, ButtonBase, Box, LinearProgress, Stack, Fab } from '@mui/material';
-import { VideoLibrary, AddRounded } from '@mui/icons-material';
-//import { useNavigate } from 'react-router-dom';
+import { Box, LinearProgress, Fab } from '@mui/material';
+import { AddRounded, Wifi } from '@mui/icons-material';
 import { BusRouteLog } from '../interfaces';
 import { useImmer } from 'use-immer';
 import useFetchData from '../hooks/useFetchData';
 import { useNavigate } from 'react-router-dom';
+import { QuickList, QuickListItem } from '../components/QuickListComponents';
 
 interface ComponentState {
     busRouteLogs: BusRouteLog[];
@@ -38,29 +38,32 @@ const Component: React.FC = () => {
     //     navigate(`/videos/${encodeURIComponent(category.Category)}`);
     // };
 
+    const handleEditClick = (value: BusRouteLog | undefined) => {
+        console.log(value);
+    };
+
+
     return (
         <div>
-            <Stack >
-                {state.isLoading && <LinearProgress />}
-                <List>
-                    {state.busRouteLogs.map(busRouteLog => (
-                        <React.Fragment key={busRouteLog._RowNumber}>
-                            <Box sx={{ width: '100%', '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' } }}>
-                                {/* <ButtonBase onClick={() => handleCategoryClick(category)} style={{ width: '100%' }}> */}
-                                <ButtonBase style={{ width: '100%' }}>
-                                    <ListItem>
-                                        <ListItemIcon>
-                                            <VideoLibrary />
-                                        </ListItemIcon>
-                                        {busRouteLog.Route}
-                                    </ListItem>
-                                </ButtonBase>
-                            </Box>
-                            <Divider />
-                        </React.Fragment>
-                    ))}
-                </List>
-            </Stack>
+            {state.isLoading && <LinearProgress sx={{ position: 'sticky', top: 0 }} />}
+            <QuickList>
+                {state.busRouteLogs.map(item => (
+                    <QuickListItem
+                        key={item.ID}
+                        value={item}
+                        icon={<Wifi />}
+                        title={item.Route}
+                        subtitle={item.Date}
+                        showDelete={true}
+                        showEdit={true}
+                        onEdit={() => handleEditClick(item)}
+                    />
+
+
+                ))}
+
+            </QuickList>
+
             <Box sx={{ position: 'fixed', bottom: 72, right: 16 }}>
                 <Fab color="primary" aria-label="add" onClick={() => navigate('/busroutelogs/create')}>
                     <AddRounded />
@@ -71,3 +74,4 @@ const Component: React.FC = () => {
 };
 
 export default Component;
+

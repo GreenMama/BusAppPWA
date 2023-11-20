@@ -8,19 +8,25 @@ const useCreateData = (url: string) => {
     const [loading, setLoading] = useState(false);
 
     const createData = async (createdData: { [key: string]: any; }) => {
+        setLoading(true);
+        setError(null);
         try {
-            setLoading(true);
+            //setLoading(true);
+            //const dataArray = [createdData];
             const apiResponse = await Api.post(url, createdData); // Adjust the HTTP method as needed
             if (!apiResponse.data) {
                 throw new Error('No data in API response');
             }
             setData(apiResponse.data);
+            console.log(apiResponse.status);
+            setLoading(false);
+            return apiResponse.status;
 
         } catch (error: any) {
             const errorMessage = error.response?.data?.message || error.message;
             setError(errorMessage);
-        } finally {
             setLoading(false);
+            return false;
         }
     };
 

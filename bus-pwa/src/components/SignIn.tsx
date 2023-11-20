@@ -118,6 +118,9 @@ const SignIn: React.FC = () => {
                             value={signIn.UserName}
                             error={submitted && !!errors.UserName}
                             helperText={submitted && errors.UserName}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
                         />
                         <TextField
                             margin="normal"
@@ -130,6 +133,9 @@ const SignIn: React.FC = () => {
                             value={signIn.Password}
                             error={submitted && !!errors.Password}
                             helperText={submitted && errors.Password}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
                         />
                         <Button
                             type="submit"

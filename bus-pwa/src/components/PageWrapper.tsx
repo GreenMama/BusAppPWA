@@ -44,23 +44,11 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ showHeader, showFooter, showF
     }, []);
 
     return (
-        // //<Container style={{ flex: 1, width: '100%' }} maxWidth="xl">
-        // <Stack style={{ flex: 1, height: '100vh' }}>
-        //     {/* <div style={{ flexDirection: 'column' }}> */}
-        //     {showHeader && <Header />}
-        //     <Stack style={{ overflow: 'auto' }} >
-        //         {/* <div style={{ flex: 1, overflow: 'auto', height: '100vh' }}> */}
-        //         {children}
-        //     </Stack>
-        //     {/* </div> */}
-        //     {showFooter && <BottomBar />}
-        //     {/* </div> */}
-        // </Stack >
-        // //</Container>
+
         <VisualViewport   >
             <Box sx={{ display: 'flex', flexDirection: 'column', height: '100dvh' }}>
                 {showHeader && <Header showMenu={showMenu} showLogo={showLogo} appBarTitle={appBarTitle} />}
-                <Box sx={{ flexGrow: 1, overflow: 'auto', bgcolor: '#F0F0F0' }}>
+                <Box sx={{ flexGrow: 1, overflow: 'auto', bgcolor: 'background.paper' }}>
                     {children}
                 </Box>
                 {showFooter && <BottomBar showIcons={showFooterIcons} />}

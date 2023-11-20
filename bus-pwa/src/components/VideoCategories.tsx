@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { List, ListItem, ListItemIcon, Divider, ButtonBase, Box, LinearProgress, Stack } from '@mui/material';
+import { LinearProgress } from '@mui/material';
 import { VideoLibrary } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { VideoCategory } from '../interfaces';
 import { useImmer } from 'use-immer';
 import useFetchData from '../hooks/useFetchData';
+import { QuickList, QuickListItem } from '../components/QuickListComponents';
 
 interface ComponentState {
     categories: VideoCategory[];
@@ -37,28 +38,21 @@ const VideoCategories: React.FC = () => {
     };
 
     return (
-        <div>
-            <Stack >
-                {state.isLoading && <LinearProgress />}
-                <List>
-                    {state.categories.map(category => (
-                        <React.Fragment key={category._RowNumber}>
-                            <Box sx={{ width: '100%', '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' } }}>
-                                <ButtonBase onClick={() => handleCategoryClick(category)} style={{ width: '100%' }}>
-                                    <ListItem>
-                                        <ListItemIcon>
-                                            <VideoLibrary />
-                                        </ListItemIcon>
-                                        {category.Category}
-                                    </ListItem>
-                                </ButtonBase>
-                            </Box>
-                            <Divider />
-                        </React.Fragment>
-                    ))}
-                </List>
-            </Stack>
-        </div>
+        <>
+            {state.isLoading && <LinearProgress sx={{ position: 'sticky', top: 0 }} />}
+            <QuickList>
+                {state.categories.map(item => (
+                    <QuickListItem
+                        key={item._RowNumber.toString()}
+                        value={item}
+                        icon={<VideoLibrary />}
+                        title={item.Category}
+                        onClick={() => handleCategoryClick(item)}
+                    />
+
+                ))}
+            </QuickList>
+        </>
     );
 };
 

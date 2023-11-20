@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { TextField } from '@mui/material';
+import { TextField, MenuItem } from '@mui/material';
 
 type PropagateToChildrenProps = {
     children: ReactNode;
@@ -12,7 +12,10 @@ export const PropagateToChildren: React.FC<PropagateToChildrenProps> = ({ childr
     });
 };
 
-
+export interface Option {
+    value: string;
+    name: string;
+}
 
 type QuickTextFieldProps = {
     name: string;
@@ -23,13 +26,22 @@ type QuickTextFieldProps = {
     errors?: { [key: string]: any };
     isSubmitted?: boolean;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    [x: string]: any; // This line allows the component to accept any other standard prop
 };
 
+type QuickSelectFieldProps = QuickTextFieldProps & {
+    options?: Option[] | null; // Replace 'prop1' with the name of your property
+    // optionName?: string; // Replace 'prop2' with the name of your property
+    // optionValue?: string; // Replace 'prop3' with the name of your property
+};
+
+
+
 export const QuickTextField: React.FC<QuickTextFieldProps> = (props) => {
-    const { name, type, required, fields, errors, isSubmitted, onChange } = props;
+    const { name, type, required, fields = {}, errors, isSubmitted, onChange, ...otherProps } = props;
     let { label } = props;
     label = label || name; // If label is undefined, use name as the label
-    const value = fields && name ? fields[name] : undefined;
+    const value = name in fields ? fields[name] : '';
     const helperText = isSubmitted && errors && name ? errors[name] : undefined;
     const error = isSubmitted && errors && name ? !!errors[name] : undefined;
 
@@ -37,7 +49,7 @@ export const QuickTextField: React.FC<QuickTextFieldProps> = (props) => {
         <TextField
             name={name}
             {...(label && { label })}
-            {...(value && { value })}
+            value={value}
             {...(onChange && { onChange })}
             {...(helperText && { helperText })}
             {...(error !== undefined && { error })}
@@ -46,55 +58,105 @@ export const QuickTextField: React.FC<QuickTextFieldProps> = (props) => {
             InputLabelProps={{
                 shrink: true,
             }}
+            {...otherProps} // Spread other standard props
         />
     );
 };
 
 
 
-// export const CustomTextField = ({ name, label, type, required, fields, errors, isSubmitted }) => {
-//     const value = fields[name];
-//     const helperText = isSubmitted && errors[name];
-//     const error = isSubmitted && !!errors[name];
+export const QuickDateField: React.FC<QuickTextFieldProps> = (props) => {
+    const { name, type, required, fields = {}, errors, isSubmitted, onChange, ...otherProps } = props;
+    let { label } = props;
+    label = label || name; // If label is undefined, use name as the label
+    const value = name in fields ? fields[name] : '';
+    const helperText = isSubmitted && errors && name ? errors[name] : undefined;
+    const error = isSubmitted && errors && name ? !!errors[name] : undefined;
 
-//     return (
-//         <TextField
-//             name={name}
-//             label={label}
-//             value={value}
-//             onChange={handleInputChange}
-//             helperText={helperText}
-//             error={error}
-//             required={required}
-//             type={type}
-//             InputLabelProps={{
-//                 shrink: true,
-//             }}
-//         />
-//     );
-// };
+    return (
+        <TextField
+            name={name}
+            {...(label && { label })}
+            value={value}
+            {...(onChange && { onChange })}
+            {...(helperText && { helperText })}
+            {...(error !== undefined && { error })}
+            {...(required !== undefined && { required })}
+            {...(type && { type })}
+            InputLabelProps={{
+                shrink: true,
+            }}
+            type={"date"}
+            {...otherProps} // Spread other standard props
+        />
+    );
+};
 
-// export const CustomTextField2 = ({ name, label, type, required, fields, errors, isSubmitted }) => {
-//     const value = fields[name];
-//     const helperText = isSubmitted && errors[name];
-//     const error = isSubmitted && !!errors[name];
+export const QuickSelectField: React.FC<QuickSelectFieldProps> = (props) => {
+    const { name, type, required, fields = {}, errors, isSubmitted, onChange, options, optionName, optionValue, ...otherProps } = props;
+    let { label } = props;
+    label = label || name; // If label is undefined, use name as the label
+    const value = name in fields ? fields[name] : '';
+    const helperText = isSubmitted && errors && name ? errors[name] : undefined;
+    const error = isSubmitted && errors && name ? !!errors[name] : undefined;
 
-//     return (
-//         <TextField
-//             name={name}
-//             label={label}
-//             value={value}
-//             onChange={handleInputChange}
-//             helperText={helperText}
-//             error={error}
-//             required={required}
-//             type={type}
-//             InputLabelProps={{
-//                 shrink: true,
-//             }}
-//         />
-//     );
-// };
+    return (
+        <TextField
+            name={name}
+            {...(label && { label })}
+            value={value}
+            {...(onChange && { onChange })}
+            {...(helperText && { helperText })}
+            {...(error !== undefined && { error })}
+            {...(required !== undefined && { required })}
+            {...(type && { type })}
+            InputLabelProps={{
+                shrink: true,
+            }}
+            select
+            {...otherProps} // Spread other standard props
+        >
+            {options?.map((option: Option) => (
+                //optionValue !== undefined && option[optionValue] !== undefined && optionName !== undefined && option[optionName] !== undefined ?
+                <MenuItem key={option.value} value={option.value}>
+                    {option.name}
+                </MenuItem>
+            ))}
+            <MenuItem value="" key="">
+                <em>-empty-</em>
+            </MenuItem>
+        </TextField>
+    );
+};
+
+export const QuickTimeField: React.FC<QuickTextFieldProps> = (props) => {
+    const { name, type, required, fields = {}, errors, isSubmitted, onChange, ...otherProps } = props;
+    let { label } = props;
+    label = label || name; // If label is undefined, use name as the label
+    const value = name in fields ? fields[name] : '';
+    const helperText = isSubmitted && errors && name ? errors[name] : undefined;
+    const error = isSubmitted && errors && name ? !!errors[name] : undefined;
+
+    return (
+        <TextField
+            name={name}
+            {...(label && { label })}
+            value={value}
+            {...(onChange && { onChange })}
+            {...(helperText && { helperText })}
+            {...(error !== undefined && { error })}
+            {...(required !== undefined && { required })}
+            {...(type && { type })}
+            InputLabelProps={{
+                shrink: true,
+            }}
+            type={"time"}
+            {...otherProps} // Spread other standard props
+        />
+    );
+};
+
+
 
 
 

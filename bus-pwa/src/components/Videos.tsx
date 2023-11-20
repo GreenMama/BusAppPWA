@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { Box, Fab, Stack, LinearProgress } from '@mui/material';
+import { Box, Fab, LinearProgress, Avatar } from '@mui/material';
 import { AddRounded } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useImmer } from 'use-immer';
 import { Video } from '../interfaces';
-import VideoCard from './VideoCard';
 import useFetchData from '../hooks/useFetchData';
+import { QuickList, QuickListItem } from '../components/QuickListComponents';
 
 interface ComponentState {
     videos: Video[];
@@ -74,28 +74,37 @@ const Videos: React.FC<VideosProps> = ({ categoryid }) => {
     }
 
     return (
-        <div >
+        < >
 
-            {/* <List>
-                {videos.map(video => (
-                    <React.Fragment key={video.ID}>
-                        <Box sx={{ width: '100%', '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' } }}>
-                            <ButtonBase onClick={() => handleEditClick(video)} style={{ width: '100%' }}>
-                                <ListItem>
-                                    <ListItemIcon>
-                                        <VideoLibrary />
-                                    </ListItemIcon>
-                                    {video.Description}
-                                </ListItem>
-                            </ButtonBase>
-                        </Box>
-                        <Divider />
-                    </React.Fragment>
+            {state.isLoading && <LinearProgress sx={{ position: 'sticky', top: 0 }} />}
+            <QuickList>
+                {state.videos.map(item => (
+                    <QuickListItem
+                        key={item.ID}
+                        value={item}
+                        icon={
+                            <Avatar
+                                src={item.IconURL}
+                                sx={{
+                                    width: { xs: 80, sm: 100, md: 142 },
+                                    height: { xs: 80, sm: 56, md: 80 },
+                                    borderRadius: '10%',
+                                    marginRight: 2,
+                                }}>
+                                {item.Description}
+
+                            </Avatar>
+                        }
+                        title={item.Description}
+                        subtitle={item.Details}
+                        onClick={() => openUrlInNewWindow(item.URL)}
+                    />
+
                 ))}
-            </List> */}
+            </QuickList>
 
-            {state.isLoading && <LinearProgress />}
-            <Box m={2} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: 'xs' }}>
+
+            {/* <Box m={2} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: 'xs' }}>
                 <Stack spacing={3}>
                     {state.videos.map((video) => (
                         <VideoCard
@@ -109,20 +118,15 @@ const Videos: React.FC<VideosProps> = ({ categoryid }) => {
                         />
                     ))}
                 </Stack>
-            </Box>
+            </Box> */}
 
             <Box sx={{ position: 'fixed', bottom: 72, right: 16 }}>
                 <Fab color="primary" aria-label="add" onClick={() => navigate('/videos/create')}>
                     <AddRounded />
                 </Fab>
             </Box>
-            {/* {showAddVideoForm && (
-                <div style={{ padding: '20px' }}>
-                    <TextField label="Video Title" value={newVideoTitle} onChange={(e) => setNewVideoTitle(e.target.value)} />
-                    <Button variant="contained" color="primary" onClick={handleAddVideo}>Save</Button>
-                </div>
-            )} */}
-        </div>
+
+        </>
     );
 };
 
