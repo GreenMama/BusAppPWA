@@ -4,7 +4,7 @@ import VideoCategories from '../components/VideoCategories';
 
 const VideoCategoriesPage: React.FC = () => {
     return (
-        <PageWrapper showHeader={true} showFooter={true} showMenu={true} appBarTitle={'Video Categories'}>
+        <PageWrapper showHeader={true} showFooter={true} showMenu={true} appBarTitle={'Videos'}>
             <VideoCategories />
         </PageWrapper>
     );

@@ -17,10 +17,12 @@ interface PageWrapperProps {
     showMenu?: boolean;
     showLogo?: boolean;
     appBarTitle?: string;
+    showBack?: boolean; // Add a new prop to control the display of the back arrow
+    onBack?: () => void; // Add a new prop for the back button click handler
     children?: ReactNode;
 }
 
-const PageWrapper: React.FC<PageWrapperProps> = ({ showHeader, showFooter, showFooterIcons, showMenu, showLogo, appBarTitle, children }) => {
+const PageWrapper: React.FC<PageWrapperProps> = ({ showHeader, showFooter, showFooterIcons, showMenu, showLogo, appBarTitle, showBack, onBack, children }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -47,7 +49,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ showHeader, showFooter, showF
 
         <VisualViewport   >
             <Box sx={{ display: 'flex', flexDirection: 'column', height: '100dvh' }}>
-                {showHeader && <Header showMenu={showMenu} showLogo={showLogo} appBarTitle={appBarTitle} />}
+                {showHeader && <Header showMenu={showMenu} showLogo={showLogo} appBarTitle={appBarTitle} showBack={showBack} onBack={onBack} />}
                 <Box sx={{ flexGrow: 1, overflow: 'auto', bgcolor: 'background.paper' }}>
                     {children}
                 </Box>

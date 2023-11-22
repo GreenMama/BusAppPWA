@@ -34,11 +34,11 @@ export const QuickList: React.FC<QuickListProps> = ({ children }) => {
 };
 
 type QuickListItemProps = {
-    key: string;
+    id: string;
     icon?: ReactNode;
     title?: string;
     subtitle?: string;
-    value?: { [key: string]: any };
+    // value?: { [key: string]: any };
     showEdit?: boolean;
     showDelete?: boolean;
     onClick?: (value: { [key: string]: any } | undefined) => void;
@@ -47,11 +47,12 @@ type QuickListItemProps = {
 };
 
 export const QuickListItem: React.FC<QuickListItemProps> = (props) => {
-    const { key, icon, title, subtitle, value, showEdit, showDelete, onClick, onEdit, onDelete } = props;
+    const { id, icon, title, subtitle, showEdit, showDelete, onClick, onEdit, onDelete } = props;
 
     return (
         <>
             <ListItemButton
+                key={id}
                 role={undefined}
                 dense
                 sx={{
@@ -61,20 +62,20 @@ export const QuickListItem: React.FC<QuickListItemProps> = (props) => {
                     bgcolor: 'rgba(0, 0, 0, 0.02)',
                     //marginTop: '0px',
                 }}
-                onClick={() => onClick && onClick(value)}>
+                onClick={onClick}>
                 <ListItem
                     sx={{
                         // '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.05)' },
                         // borderRadius: 2,
                         // bgcolor: 'rgba(0, 0, 0, 0.02)'
                     }}
-                    key={key}
+                    key={id}
                     secondaryAction={
                         <Box>
-                            {showEdit && <IconButton edge="end" aria-label="edit" onClick={() => onEdit && onEdit(value)}>
+                            {showEdit && <IconButton edge="end" aria-label="edit" onClick={onEdit}>
                                 <Edit />
                             </IconButton>}
-                            {showDelete && <IconButton edge="end" aria-label="delete" onClick={() => onDelete && onDelete(value)}>
+                            {showDelete && <IconButton sx={{ marginLeft: 2 }} edge="end" aria-label="delete" onClick={onDelete}>
                                 <Delete />
                             </IconButton>}
                         </Box>

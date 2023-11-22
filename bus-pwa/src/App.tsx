@@ -28,6 +28,7 @@ const App: React.FC = () => {
                 <Route path="/videos/update/:ID" element={<EditVideoPage mode="update" />} />
                 <Route path="/busroutelogs" element={<BusRouteLogsPage />} />
                 <Route path="/busroutelogs/create" element={<EditBusRouteLogPage mode="create" />} />
+                <Route path="/busroutelogs/update/:ID" element={<EditBusRouteLogPage mode="update" />} />
                 <Route path="/signin" element={<SignInPage />} />
             </SlideRoutes>
 

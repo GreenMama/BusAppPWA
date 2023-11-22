@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Box, LinearProgress, Fab } from '@mui/material';
-import { AddRounded, Wifi } from '@mui/icons-material';
+import { AddRounded, Reorder } from '@mui/icons-material';
 import { BusRouteLog } from '../interfaces';
 import { useImmer } from 'use-immer';
 import useFetchData from '../hooks/useFetchData';
@@ -39,7 +39,11 @@ const Component: React.FC = () => {
     // };
 
     const handleEditClick = (value: BusRouteLog | undefined) => {
-        console.log(value);
+        //console.log(value);
+        if (value?.ID) {
+            navigate(`/busroutelogs/update/${value.ID}`, { state: { value } });
+        }
+
     };
 
 
@@ -50,8 +54,8 @@ const Component: React.FC = () => {
                 {state.busRouteLogs.map(item => (
                     <QuickListItem
                         key={item.ID}
-                        value={item}
-                        icon={<Wifi />}
+                        id={item.ID}
+                        icon={<Reorder />}
                         title={item.Route}
                         subtitle={item.Date}
                         showDelete={true}

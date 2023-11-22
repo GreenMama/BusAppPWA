@@ -13,6 +13,7 @@ export const blankVideoCategory = (): VideoCategory => ({
 
 
 export interface Video {
+    "_RowNumber": string;
     ID: string;
     Description: string;
     Details: string;
@@ -26,6 +27,7 @@ export interface Video {
 }
 
 export const blankVideo = (): Video => ({
+    "_RowNumber": '',
     ID: '',
     Description: '',
     Details: '',

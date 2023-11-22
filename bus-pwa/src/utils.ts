@@ -35,3 +35,15 @@ export function putDataToLocalStorage(name: string, jsonData: { [key: string]: a
     const data = JSON.stringify(jsonData);
     localStorage.setItem(`${storageKeyPrefix}${name}`, data);
 }
+
+export function convertDateFormat(inputDate: string): string {
+    const parts = inputDate.split('/');
+
+    if (parts.length === 3) {
+        const [month, day, year] = parts;
+        const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+        return formattedDate;
+    } else {
+        return ""; // Invalid input format
+    }
+}

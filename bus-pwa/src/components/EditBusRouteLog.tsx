@@ -5,7 +5,9 @@ import useCreateData from '../hooks/useCreateData';
 import { Button, Stack, Alert, Container, LinearProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { BusRouteLog, blankBusRouteLog } from '../interfaces';
-import { QuickTextField, QuickDateField, QuickTimeField, QuickSelectField, PropagateToChildren, Option } from './QuickComponents'
+import { useLocation } from 'react-router-dom';
+import { QuickTextField, QuickDateField, QuickTimeField, QuickSelectField, PropagateToChildren, Option } from './QuickComponents';
+import { convertDateFormat } from "../utils";
 
 
 interface ComponentState {
@@ -25,6 +27,8 @@ interface ComponentProps {
 }
 
 const Component: React.FC<ComponentProps> = ({ mode }) => {
+    const location = useLocation();
+    const initialBusRouteLog = location.state?.value as BusRouteLog;
     const [state, setState] = useImmer<ComponentState>({
         fields: blankBusRouteLog(),
         errors: blankBusRouteLog(),
@@ -35,7 +39,20 @@ const Component: React.FC<ComponentProps> = ({ mode }) => {
     const navigate = useNavigate();
     const { data: busesData, error: busesError, loading: busesLoading } = useFetchData(`/Buses`, `buses`);
     const { data: staffData, error: staffError, loading: staffLoading } = useFetchData(`/Staff`, `staff`);
-    const { error: createError, loading: createLoading, createData } = useCreateData(`/Bus Route Log`);
+    const { error: createError, loading: createLoading, createData, updateData } = useCreateData(`/Bus Route Log`);
+
+    useEffect(() => {
+        // Initialize valus
+        if (mode == "create") {
+            //here you can add defaults
+        } else {
+            setState((draft) => {
+                draft.fields = initialBusRouteLog ? initialBusRouteLog : draft.fields;
+                draft.fields.Date = draft.fields.Date ? convertDateFormat(draft.fields.Date) : "";
+            });
+        }
+
+    }, []);
 
     useEffect(() => {
         setState((draft) => {
@@ -61,6 +78,7 @@ const Component: React.FC<ComponentProps> = ({ mode }) => {
         }));
         setState((draft) => {
             draft.busOptions = remappedData;
+
         });
     }, [busesData]);
 
@@ -73,8 +91,11 @@ const Component: React.FC<ComponentProps> = ({ mode }) => {
             draft.driverOptions = remappedData;
             draft.volunteerOptions = remappedData;
             draft.yesLiberiaStaffOptions = remappedData;
+
         });
     }, [staffData]);
+
+
 
     useEffect(() => {
         validateFields();
@@ -190,9 +211,13 @@ const Component: React.FC<ComponentProps> = ({ mode }) => {
             return;
         }
 
-        console.log(state.fields);
+        let result;
+        if (mode === 'create') {
+            result = await createData(state.fields);
+        } else {
+            result = await updateData(state.fields);
+        }
 
-        const result = await createData(state.fields);
 
         if (result === 200) {
             navigate(-1);

@@ -96,9 +96,14 @@ export const QuickSelectField: React.FC<QuickSelectFieldProps> = (props) => {
     const { name, type, required, fields = {}, errors, isSubmitted, onChange, options, optionName, optionValue, ...otherProps } = props;
     let { label } = props;
     label = label || name; // If label is undefined, use name as the label
-    const value = name in fields ? fields[name] : '';
+    let value = name in fields ? fields[name] : '';
     const helperText = isSubmitted && errors && name ? errors[name] : undefined;
     const error = isSubmitted && errors && name ? !!errors[name] : undefined;
+    // Check if the value exists in the options
+    const valueExists = options?.some(option => option.value === value);
+    if (!valueExists) {
+        value = ''; // Set value to empty string if it doesn't exist in the options
+    }
 
     return (
         <TextField

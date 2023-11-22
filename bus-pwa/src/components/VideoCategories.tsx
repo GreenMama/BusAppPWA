@@ -44,7 +44,7 @@ const VideoCategories: React.FC = () => {
                 {state.categories.map(item => (
                     <QuickListItem
                         key={item._RowNumber.toString()}
-                        value={item}
+                        id={item._RowNumber.toString()}
                         icon={<VideoLibrary />}
                         title={item.Category}
                         onClick={() => handleCategoryClick(item)}

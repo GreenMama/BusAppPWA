@@ -81,7 +81,7 @@ const Videos: React.FC<VideosProps> = ({ categoryid }) => {
                 {state.videos.map(item => (
                     <QuickListItem
                         key={item.ID}
-                        value={item}
+                        id={item.ID}
                         icon={
                             <Avatar
                                 src={item.IconURL}
