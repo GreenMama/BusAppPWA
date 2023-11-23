@@ -73,6 +73,14 @@ const Videos: React.FC<VideosProps> = ({ categoryid }) => {
         }
     }
 
+    const handleEditClick = (value: Video | undefined) => {
+        //console.log(value);
+        if (value?.ID) {
+            navigate(`/videos/update/${value.ID}`, { state: { value } });
+        }
+
+    };
+
     return (
         < >
 
@@ -82,6 +90,8 @@ const Videos: React.FC<VideosProps> = ({ categoryid }) => {
                     <QuickListItem
                         key={item.ID}
                         id={item.ID}
+                        showDelete={true}
+                        showEdit={true}
                         icon={
                             <Avatar
                                 src={item.IconURL}
@@ -98,6 +108,7 @@ const Videos: React.FC<VideosProps> = ({ categoryid }) => {
                         title={item.Description}
                         subtitle={item.Details}
                         onClick={() => openUrlInNewWindow(item.URL)}
+                        onEdit={() => handleEditClick(item)}
                     />
 
                 ))}

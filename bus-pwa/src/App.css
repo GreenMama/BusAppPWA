@@ -63,7 +63,8 @@ body,
   /* height: 56px !important;
   max-height: 56px !important; */
   min-height: 56px !important;
-  background-color: lightgrey !important;
+  /* background-color: lightgrey !important; */
+  background-color: rgb(0, 255, 255, 0.5) !important;
 }
 
 * {

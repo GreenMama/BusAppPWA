@@ -7,7 +7,7 @@ const manifestForPlugIn: Partial<VitePWAOptions> = {
   registerType: 'prompt',
 
   manifest: {
-    "theme_color": "#c8c8c8",
+    "theme_color": "#ffa521",
     "background_color": "#ffa521",
     "icons": [
       {

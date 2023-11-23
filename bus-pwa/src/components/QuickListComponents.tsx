@@ -57,35 +57,50 @@ export const QuickListItem: React.FC<QuickListItemProps> = (props) => {
                 dense
                 sx={{
                     //'&:hover': { backgroundColor: 'transparent' }
+                    display: 'flex',
                     '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.05)' },
                     borderRadius: 2,
                     bgcolor: 'rgba(0, 0, 0, 0.02)',
                     //marginTop: '0px',
                 }}
-                onClick={onClick}>
+            >
                 <ListItem
                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
                         // '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.05)' },
                         // borderRadius: 2,
                         // bgcolor: 'rgba(0, 0, 0, 0.02)'
                     }}
                     key={id}
-                    secondaryAction={
-                        <Box>
-                            {showEdit && <IconButton edge="end" aria-label="edit" onClick={onEdit}>
-                                <Edit />
-                            </IconButton>}
-                            {showDelete && <IconButton sx={{ marginLeft: 2 }} edge="end" aria-label="delete" onClick={onDelete}>
-                                <Delete />
-                            </IconButton>}
-                        </Box>
-                    }
+                    onClick={onClick}
+                // secondaryAction={
+                //     <Box>
+                //         {showEdit && <IconButton edge="end" aria-label="edit" onClick={onEdit}>
+                //             <Edit />
+                //         </IconButton>}
+                //         {showDelete && <IconButton sx={{ marginLeft: 2 }} edge="end" aria-label="delete" onClick={onDelete}>
+                //             <Delete />
+                //         </IconButton>}
+                //     </Box>
+                // }
                 >
                     <ListItemIcon>
                         {icon}
                     </ListItemIcon>
                     <ListItemText primary={title} secondary={subtitle} />
+
                 </ListItem>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+                    {showEdit && <IconButton edge="end" aria-label="edit" onClick={onEdit}>
+                        <Edit />
+                    </IconButton>}
+                    {showDelete && <IconButton sx={{ marginLeft: 2 }} edge="end" aria-label="delete" onClick={onDelete}>
+                        <Delete />
+                    </IconButton>}
+                </Box>
+
             </ListItemButton>
             <Divider sx={{ marginBottom: '3px' }} />
         </>
